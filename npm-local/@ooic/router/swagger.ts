@@ -11,6 +11,7 @@ import { StatusCodes } from "http-status-codes";
 import { HttpError } from "@ooic/utils";
 import { SwaggerEndpoint } from "./types";
 import { OpenAPIV2 } from "openapi-types";
+import { deepMerge } from "@ooic/utils";
 
 const docsCache: any = {};
 
@@ -28,7 +29,9 @@ const generateDoc = (pathPrefix?: string) => {
   const pRoot = path.resolve(__dirname, `./../../../src/router/swagger.base.json`);
   const pPrefixed = path.resolve(__dirname, `./../../../src/router/${pathPrefix}/swagger.base.json`);
   const pFinal = pathPrefix ? pPrefixed : pRoot;
-  Object.assign(baseJson, JSON.parse(readFileSync(pFinal).toString()));
+
+  existsSync(pRoot) && deepMerge(baseJson, JSON.parse(readFileSync(pRoot).toString()));
+  pRoot !== pPrefixed && deepMerge(baseJson, JSON.parse(readFileSync(pFinal).toString()));
 
   doc = {
     swagger: "2.0",
@@ -37,7 +40,7 @@ const generateDoc = (pathPrefix?: string) => {
     schemes: ["http"],
     paths: {},
   };
-  Object.assign(doc, baseJson);
+  deepMerge(doc, baseJson);
   pathPrefix ? (docsCache[pathPrefix] = doc) : (docsCache.__default = doc);
   routes.forEach((route) => {
     if (pathPrefix && !route.path.startsWith("/" + pathPrefix)) return;
@@ -50,7 +53,7 @@ const generateDoc = (pathPrefix?: string) => {
       return prev;
     }, {} as Record<RouteField, any>);
 
-    path[route.method] = Object.assign(path[route.method] || {}, {
+    path[route.method] = deepMerge(path[route.method] || {}, {
       consumes: ["application/json"],
       produces: ["application/json"],
       parameters: [],
@@ -103,6 +106,7 @@ const ApiVersionNotFoundError = (version) =>
   new HttpError(StatusCodes.BAD_REQUEST, `There is no API definition or endpoints${version ? " in " + version : ""}.`);
 
 const generateSwaggerJson = (version?: string) => {
+  console.log(ooicConfig)
   if (version && !ooicConfig.allowedVersions.includes(version)) {
     throw ApiVersionNotFoundError(version);
   }

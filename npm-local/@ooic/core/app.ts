@@ -9,13 +9,13 @@ import * as router from "@ooic/router";
 import { initErrorHandlers } from "./init-error-handlers";
 import { queryParser } from "express-query-parser";
 import packageJson from "./../../../package.json";
-import { isPortOk } from "@ooic/utils";
+import { deepMerge, isPortOk } from "@ooic/utils";
 import { StatusCodes } from "http-status-codes";
 
 export let baseUrl = process.env.BASE_URL;
 export const ooicConfig: OoicConfig = {} as OoicConfig;
 export async function ooic(config: OoicConfig) {
-  Object.assign(ooicConfig, config);
+  deepMerge(ooicConfig, config);
   const app = express();
   config.cors?.enabled && app.use(cors(config.cors.options));
   config.morgan?.enabled &&

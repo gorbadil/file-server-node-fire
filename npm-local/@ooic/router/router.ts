@@ -4,6 +4,7 @@ import { Express, RequestHandler } from "express";
 import { Endpoint } from "./Endpoint.class";
 import { RequestSchemaType, Route, BoundRoute, BuildReturn, HandlerWithResponse } from "./types";
 import { StatusCodes } from "http-status-codes";
+import { deepMerge } from "@ooic/utils";
 
 export const routes: BoundRoute[] = [];
 
@@ -83,7 +84,7 @@ const routeLoader = (router: Endpoint | Route, path: string, middleware: Handler
       ...(_router.schema ? [RequestValidationCtor(_router.schema), ..._router.handlers] : [..._router.handlers]),
     ];
 
-    _router.responses = Object.assign(
+    _router.responses = deepMerge(
       _router.responses || {},
       handlers.reduce((prev, curr) => {
         curr.responses.forEach((res) => (prev[String(res.code)] = res));
