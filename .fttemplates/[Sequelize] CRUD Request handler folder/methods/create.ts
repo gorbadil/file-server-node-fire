@@ -1,8 +1,10 @@
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
-
+import { WithId } from "~/router/___util"
 import { <FTName | pascalcase> } from "~/drivers/sequelize/models/<FTName | pascalcase>";
-
+  
+import { HandlerWithResponse, ResponseWithStatusCode } from "@ooic/router/types";
+import zodToJsonSchema from "zod-to-json-schema";
 /**
  * Request handler for creating a new {@link <FTName | pascalcase> <FTName | pascalcase>}.
  * @param request The Express request object.

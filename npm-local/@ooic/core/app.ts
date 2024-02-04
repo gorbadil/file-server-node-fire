@@ -9,7 +9,7 @@ import * as router from "@ooic/router";
 import { initErrorHandlers } from "./init-error-handlers";
 import { queryParser } from "express-query-parser";
 import packageJson from "./../../../package.json";
-import { deepMerge, isPortOk } from "@ooic/utils";
+import { HttpError, deepMerge, isPortOk } from "@ooic/utils";
 import { StatusCodes } from "http-status-codes";
 
 export let baseUrl = process.env.BASE_URL;
@@ -46,9 +46,9 @@ export async function ooic(config: OoicConfig) {
     500 Internal Server Error status code and sends the entire error object as the response.
   */
   const unhandledErrorHandler: ErrorRequestHandler = (error, _request, response, _next) => {
-    if (error.statusCode)
+    if (error instanceof HttpError && error.code)
       return response
-        .status(error.statusCode)
+        .status(error.code)
         .send(error.message || error)
         .json();
     response

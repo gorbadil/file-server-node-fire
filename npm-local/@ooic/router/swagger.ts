@@ -2,14 +2,14 @@ import { Express, Request, Response, NextFunction } from "express";
 import swaggerUi from "swagger-ui-express";
 import { JSONSchemaFaker, Schema } from "json-schema-faker";
 import zodToJsonSchema from "zod-to-json-schema";
-import { RouteField, routeFields, routes } from "./router";
+import { routeFields, routes } from "./router";
 import { baseUrl } from "@ooic/core";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { ooicConfig } from "@ooic/core";
 import { StatusCodes } from "http-status-codes";
 import { HttpError } from "@ooic/utils";
-import { SwaggerEndpoint } from "./types";
+import { RouteField, SwaggerEndpoint } from "./types";
 import { OpenAPIV2 } from "openapi-types";
 import { deepMerge } from "@ooic/utils";
 

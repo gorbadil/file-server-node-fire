@@ -1,7 +1,8 @@
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
+import { HttpError } from "@ooic/utils";
 
-import { <FTName | pascalcase> } from "~/drivers/mongoose/models/<FTName | pascalcase>";
+import { <FTName | pascalcase>Document } from "~/drivers/firebase/collections/<FTName | pascalcase>";
 
 /**
  * Request handler for retrieving an {@link <FTName | pascalcase> <FTName | pascalcase>} by its ID.
@@ -14,8 +15,13 @@ import { <FTName | pascalcase> } from "~/drivers/mongoose/models/<FTName | pasca
 export const findById: RequestHandler = async (request, response, next) => {
   const { id } = request.params;
   try {
-    const <FTName | camelcase> = await <FTName | pascalcase>.findByPk(id);
-    response.status(StatusCodes.OK).send(<FTName | camelcase>);
+    const <FTName | camelcase> = await <FTName | pascalcase>Document(id).get();
+
+    if (!<FTName | camelcase>.exists) throw new HttpError(StatusCodes.NOT_FOUND);
+
+    const <FTName | camelcase>Data = { id: <FTName | camelcase>.id, ...<FTName | camelcase>.data() };
+
+    response.status(StatusCodes.OK).send(<FTName | camelcase>Data);
   } catch (error) {
     next(error);
   }

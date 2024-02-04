@@ -1,7 +1,8 @@
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { <FTName | pascalcase> } from "~/drivers/sequelize/models/<FTName | pascalcase>";
+import { <FTName | pascalcase>import { HandlerWithResponse, ResponseWithStatusCode } from "@ooic/router/types";
+ } from "~/drivers/sequelize/models/<FTName | pascalcase>";
 
 /**
  * Request handler for retrieving an {@link <FTName | pascalcase> <FTName | pascalcase>} by its ID.
@@ -15,6 +16,9 @@ export const findById: RequestHandler = async (request, response, next) => {
   const { id } = request.params;
   try {
     const <FTName | camelcase> = await <FTName | pascalcase>.findByPk(id);
+
+    if (!<FTName | camelcase>) throw new HttpError(StatusCodes.NOT_FOUND);
+
     response.status(StatusCodes.OK).send(<FTName | camelcase>);
   } catch (error) {
     next(error);

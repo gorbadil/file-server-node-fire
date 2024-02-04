@@ -1,7 +1,8 @@
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
+import { HttpError } from "@ooic/utils";
 
-import { <FTName | pascalcase> } from "~/drivers/mongoose/models/<FTName | pascalcase>";
+import { <FTName | pascalcase> } from "~/drivers/mongoose/collections/<FTName | pascalcase>";
 
 /**
  * Request handler for patching an {@link <FTName | pascalcase> <FTName | pascalcase>} entity.
@@ -17,6 +18,9 @@ export const patch: RequestHandler = async (request, response, next) => {
   const body = request.body;
   try {
     const <FTName | camelcase> = await  <FTName | pascalcase>.findByIdAndUpdate(id, body, { new: true});
+
+    if (!<FTName | camelcase>.exists) throw new HttpError(StatusCodes.NOT_FOUND);
+
     response.status(StatusCodes.OK).send(<FTName | camelcase>);
   } catch (error) {
     next(error);

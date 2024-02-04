@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { <FTName | pascalcase> } from "~/drivers/mongoose/models/<FTName | pascalcase>";
+import { <FTName | pascalcase> } from "~/drivers/mongoose/collections/<FTName | pascalcase>";
 
 /**
  * Request handler for retrieving a list of {@link <FTName | pascalcase> <FTName | pascalcase>} entities.
@@ -15,14 +15,14 @@ import { <FTName | pascalcase> } from "~/drivers/mongoose/models/<FTName | pasca
 export const list: RequestHandler = async (request, response, next) => {
   const { _sortBy, _sortType, _page, _pageSize, ...query } = request.query;
   const page = Number(_page) || 1;
-  const pageSize = Number(_pageSize) || 16
+  const pageSize = Number(_pageSize)
   const offset = ((page - 1) * Number(_pageSize)) || 0;
   try {
     const count = await <FTName | pascalcase>.countDocuments(query);
     const pageCount = Math.ceil(count/pageSize)
     let <FTName | plural?camelcase> = <FTName | pascalcase>
     
-    <FTName | plural?camelcase> = _sortBy ? <FTName | plural?camelcase>.sort({[String(_sortBy)]: _sortType === "desc" ? -1 : 1});
+    <FTName | plural?camelcase> = _sortBy ? <FTName | plural?camelcase>.sort({[String(_sortBy)]: _sortType === "desc" ? -1 : 1}) : <FTName | plural?camelcase>;
     <FTName | plural?camelcase> = offset ? <FTName | plural?camelcase>.skip(offset) : <FTName | plural?camelcase>;
     <FTName | plural?camelcase> = pageSize ? <FTName | plural?camelcase>.limit(Number(pageSize)) : <FTName | plural?camelcase>
     const result = await <FTName | plural?camelcase>

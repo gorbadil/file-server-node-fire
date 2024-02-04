@@ -13,7 +13,7 @@ const isPortOk = async (port: number | string, maxAttempt: number = 5, attempt: 
   const a = attempt + 1;
 
   let resolver!: (port: number) => void;
-  let rejecter!: () => void;
+  let rejecter!: (error: Error) => void;
 
   const prm = new Promise<number>((resolve, reject) => {
     resolver = resolve;
@@ -28,14 +28,16 @@ const isPortOk = async (port: number | string, maxAttempt: number = 5, attempt: 
         resolver(await isPortOk(_port + 1, maxAttempt, a));
       } else {
         console.error("Free port not found in max attempt", maxAttempt);
-        rejecter();
+        rejecter(new Error("Free port not found in max attempt " + maxAttempt));
       }
+    } else {
+      console.error("Error occurred while checking port:", err);
+      rejecter(err);
     }
   });
 
   server.once("listening", function () {
     console.log("Port is available:", port);
-
     resolver(_port);
     server.close();
   });

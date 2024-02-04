@@ -3,9 +3,9 @@
  * @module <FTName | pascalcase>Controller
  */
 
-export { create } from "./methods/create";
-export { list } from "./methods/list";
-export { findById } from "./methods/findById";
-export { destroy } from "./methods/destroy";
-export { update } from "./methods/update";
-export { patch } from "./methods/patch";
+export { default as create } from "./methods/create";
+export { default as list } from "./methods/list";
+export { default as findById } from "./methods/findById";
+export { default as destroy } from "./methods/destroy";
+export { default as update } from "./methods/update";
+export { default as patch } from "./methods/patch";

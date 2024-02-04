@@ -1,7 +1,8 @@
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { <FTName | pascalcase> } from "~/drivers/sequelize/models/<FTName | pascalcase>";
+import { <FTName | pascalcase>import { HandlerWithResponse, ResponseWithStatusCode } from "@ooic/router/types";
+ } from "~/drivers/sequelize/models/<FTName | pascalcase>";
 
 /**
  * Request handler for retrieving a list of {@link <FTName | pascalcase> <FTName | pascalcase>} entities.
@@ -15,7 +16,7 @@ import { <FTName | pascalcase> } from "~/drivers/sequelize/models/<FTName | pasc
 export const list: RequestHandler = async (request, response, next) => {
   const { _sortBy, _sortType, _page, _pageSize, ...query } = request.query;
   const page = Number(_page) || 1;
-  const pageSize = Number(_pageSize) || 16
+  const pageSize = Number(_pageSize)
   const offset = ((page - 1) * Number(_pageSize)) || 0;
   try {
     const <FTName | plural?camelcase> = await <FTName | pascalcase>.findAndCountAll({

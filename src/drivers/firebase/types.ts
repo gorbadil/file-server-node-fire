@@ -1,0 +1,1 @@
+export type CreationAttributes<T> = Omit<T, "id">

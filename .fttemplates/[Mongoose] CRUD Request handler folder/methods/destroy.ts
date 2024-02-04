@@ -1,7 +1,8 @@
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
+import { HttpError } from "@ooic/utils";
 
-import { <FTName | pascalcase> } from "~/drivers/mongoose/models/<FTName | pascalcase>";
+import { <FTName | pascalcase> } from "~/drivers/mongoose/collections/<FTName | pascalcase>";
 
 /**
  * Request handler for destroying an {@link <FTName | pascalcase> <FTName | pascalcase>}.
@@ -15,6 +16,9 @@ export const destroy: RequestHandler = async (request, response, next) => {
   const { id } = request.params;
   try {
     const <FTName | camelcase> = await <FTName | pascalcase>.findByIdAndRemove(id);
+
+    if (!<FTName | camelcase>.exists) throw new HttpError(StatusCodes.NOT_FOUND);
+
     response.status(StatusCodes.OK).send(<FTName | camelcase>);
   } catch (error) {
     next(error);

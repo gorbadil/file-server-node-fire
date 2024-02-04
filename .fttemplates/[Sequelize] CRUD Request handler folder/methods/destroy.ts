@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
+import { HandlerWithResponse, ResponseWithStatusCode } from "@ooic/router/types";
 
 import { <FTName | pascalcase> } from "~/drivers/sequelize/models/<FTName | pascalcase>";
 
@@ -15,6 +16,9 @@ export const destroy: RequestHandler = async (request, response, next) => {
   const { id } = request.params;
   try {
     const <FTName | camelcase> = await <FTName | pascalcase>.findByPk(id);
+
+    if (!<FTName | camelcase>) throw new HttpError(StatusCodes.NOT_FOUND);
+
     <FTName | camelcase>.destroy();
     response.status(StatusCodes.OK).send(<FTName | camelcase>);
   } catch (error) {
