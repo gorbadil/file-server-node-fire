@@ -19,7 +19,7 @@ endpoint
 
 // Route for listing Files.
 endpoint
-  .get({ query: StdQuery })
+  .get({ query: StdQuery(FileSchema) })
   .handler(file.list)
   .tags("file")
   .summary("List files")

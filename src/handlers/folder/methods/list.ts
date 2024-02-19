@@ -21,7 +21,7 @@ export const list: RequestHandler = async (request, response, next) => {
 
   try {
     let folders = FolderCollection().offset(0);
-    applyFilters(folders, query);
+    folders = applyFilters(folders, query);
 
     const countDoc = await FolderCounter().get(); // Toplam döküman sayısını içeren bir sayac dökümanı
     const count = countDoc.exists ? countDoc.data().count : 0;

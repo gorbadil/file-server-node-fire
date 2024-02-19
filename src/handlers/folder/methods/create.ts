@@ -19,7 +19,7 @@ export const create: RequestHandler = async (request, response, next) => {
 
     await FolderCounter().update({ count: increment(1) });
 
-    const folderData = { id: folder.id, ...body };
+    const folderData = { id: folder.id, ...body, parentId: body.parentId || null };
 
     response.status(StatusCodes.CREATED).send(folderData);
   } catch (error) {

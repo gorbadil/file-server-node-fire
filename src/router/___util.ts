@@ -14,11 +14,13 @@ export const AsList = (original: ZodObject<any>) =>
     pageCount: zod.number(),
   });
 
-export const StdQuery = zod
-  .object({
-    _sortBy: zod.string(),
-    _sortType: zod.string(),
-    _page: zod.number(),
-    _pageSize: zod.number(),
-  })
-  .partial();
+export const StdQuery = (schema: ZodObject<any>) => {
+  return schema
+    .extend({
+      _sortBy: zod.string(),
+      _sortType: zod.string(),
+      _page: zod.number(),
+      _pageSize: zod.number(),
+    })
+    .partial();
+};

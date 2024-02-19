@@ -21,7 +21,7 @@ export const list: RequestHandler = async (request, response, next) => {
 
   try {
     let files = FileCollection().offset(0);
-    applyFilters(files, query);
+    files = applyFilters(files, query);
 
     const countDoc = await FileCounter().get(); // Toplam döküman sayısını içeren bir sayac dökümanı
     const count = countDoc.exists ? countDoc.data().count : 0;

@@ -19,7 +19,7 @@ endpoint
 
 // Route for listing Folders.
 endpoint
-  .get({ query: StdQuery })
+  .get({ query: StdQuery(FolderSchema) })
   .handler(folder.list)
   .tags("folder")
   .summary("List folders")
